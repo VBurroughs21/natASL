@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "yo": "./node_modules/yo/lib/cli.js"
-  },
-  "private": true
-}
