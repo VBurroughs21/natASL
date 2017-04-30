@@ -1,8 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
-
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
-export const assignmentSchema = new Schema({
+const assignmentSchema = new Schema({
 
   client: {
     type: ObjectId,
@@ -23,4 +23,5 @@ export const assignmentSchema = new Schema({
   timestamps: true,
 });
 
-export const Assignment = mongoose.model('Assignment', assignmentSchema);
+module.exports.assignmentSchema = assignmentSchema;
+module.exports.Assignment = mongoose.model('Assignment', assignmentSchema);

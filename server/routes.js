@@ -1,7 +1,7 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
 
-export default new Router()
+module.exports = new Router()
 .use((request, response, next) => {
   console.log('\n', new Date());
   console.log(`${request.method.toString()} ${request.url.toString()}`, request.body);

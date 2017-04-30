@@ -1,9 +1,10 @@
-import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'mongoose-bcrypt';
-
+const mongoose = require('mongoose');
+const bcrypt = require('mongoose-bcrypt');
+const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
-export const userSchema = new Schema({
+
+const userSchema = new Schema({
 
   email: { type: String },
 
@@ -18,4 +19,5 @@ export const userSchema = new Schema({
 
 userSchema.plugin(bcrypt);
 
-export const User = mongoose.model('User', userSchema);
+module.exports.userSchema = userSchema;
+module.exports.User = mongoose.model('User', userSchema);

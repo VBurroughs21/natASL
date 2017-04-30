@@ -1,8 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
-
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
-export const paymentSchema = new Schema({
+const paymentSchema = new Schema({
 
   amount: {
     type: Number,
@@ -28,6 +28,8 @@ export const paymentSchema = new Schema({
 
 }, {
   timestamps: true,
+
 });
 
-export const Payment = mongoose.model('Payment', paymentSchema);
+module.exports.paymentSchema = paymentSchema;
+module.exports.Payment = mongoose.model('Payment', paymentSchema);

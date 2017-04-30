@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
-import './models';
+const mongoose = require('mongoose');
 
-export const connectDB = (dbUri) => {
+require('./models');
+
+module.exports.connectDB = (dbUri) => {
   const uri = dbUri || 'mongodb://localhost/nat-asl-development';
   mongoose.connect(uri, (err) => {
     if (err) {

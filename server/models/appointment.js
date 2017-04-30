@@ -1,8 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
-
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
-export const appointmentSchema = new Schema({
+const appointmentSchema = new Schema({
 
   googleEventId: {
     type: String,
@@ -18,6 +18,8 @@ export const appointmentSchema = new Schema({
 
 }, {
   timestamps: true,
+
 });
 
-export const Appointment = mongoose.model('Appointment', appointmentSchema);
+module.exports.appointmentSchema = appointmentSchema;
+module.exports.Appointment = mongoose.model('Appointment', appointmentSchema);

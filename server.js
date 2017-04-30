@@ -1,18 +1,20 @@
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import express from 'express';
-import path from 'path';
-import http from 'http';
-import bodyParser from 'body-parser';
-import webpackConfig from './webpack.config';
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
-import jwt from 'jsonwebtoken';
-import jwtConfig from './jwt.config.json';
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const bodyParser = require('body-parser');
+const webpackConfig = require('./webpack.config');
 
-import { connectDB } from './server/database';
-import apiRoutes from './server/routes';
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const connectMongo = require('connect-mongo');
+
+const { connectDB } = require('./server/database');
+const apiRoutes = require('./server/routes');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDeveloping = !isProduction;
@@ -51,6 +53,16 @@ const publicPath = path.resolve(__dirname);
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(express.static(publicPath));
 
+// const MongoStore = connectMongo(session);
+
+app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET || '<mysecret>',
+  secure: isProduction,  // Should be true when using https
+  resave: true,
+  saveUninitialized: true,
+  // store: new MongoStore(),
+}));
 
 app.use('/api', apiRoutes);
 

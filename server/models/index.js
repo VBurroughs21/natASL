@@ -1,4 +1,9 @@
-import './user';
-import './appointment';
-import './assignment';
-import './payment';
+[
+  'user',
+  'appointment',
+  'assignment',
+  'payment',
+]
+.forEach((model) => {
+  require(`./${model}`);
+});
