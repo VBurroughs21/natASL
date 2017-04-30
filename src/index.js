@@ -28,8 +28,8 @@ ReactDOM.render(
         <Route path="/" component={App}>
           <IndexRoute component={Home}/>
           <Route path="/about" component={About}/>
-          //<Route path="/pricing" component={Pricing}/>  
-          //<Route path="/signup" component={SignUp}/>
+          {/*<Route path="/pricing" component={Pricing}/>  */}
+          {/*<Route path="/signup" component={SignUp}/>*/}
           <Route path="/login" component={Login}/>
 
           <Route component={RestrictPage}>

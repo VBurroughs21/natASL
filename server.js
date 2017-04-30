@@ -66,6 +66,11 @@ app.use(session({
 
 app.use('/api', apiRoutes);
 
+app.get('*', function (request, response){
+  // Send All Back to React App
+  response.sendFile(path.resolve(__dirname, '', 'index.html'))
+});
+
 const server = http.createServer(app);
 const port = isProduction ? (process.env.PORT || 80) : 3000;
 server.listen(port, function (err, result) {

@@ -10,7 +10,7 @@ module.exports = new Router()
 .use('/sessions', sessions)
   /*
     post /     => create
-    get /me    => logged in user
+    get  /me    => logged in user
   */
 .use('/users', users);
   /*
