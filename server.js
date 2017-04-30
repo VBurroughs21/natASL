@@ -11,6 +11,8 @@ import webpackConfig from './webpack.config';
 import jwt from 'jsonwebtoken';
 import jwtConfig from './jwt.config.json';
 
+import { connectDB } from './server/database';
+import apiRoutes from './server/routes';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDeveloping = !isProduction;
@@ -46,43 +48,21 @@ if (isDeveloping) {
 
 //  RESTful API
 const publicPath = path.resolve(__dirname);
-app.use(bodyParser.json({ type: 'application/json' }))
+app.use(bodyParser.json({ type: 'application/json' }));
 app.use(express.static(publicPath));
 
-const port = isProduction ? (process.env.PORT || 80) : 3000;
 
-// this is necessary to handle URL correctly since client uses Browser History
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, '', 'index.html'))
-})
-
-app.post('/api/login', function(req, res) {
-      const credentials = req.body;
-      if(credentials.user==='admin' && credentials.password==='password'){
-
-        const profile = {'user': credentials.user, 'role': 'ADMIN'};
-        const jwtToken = jwt.sign(profile, jwtConfig.secret, {'expiresIn' : 5*60});  // expires in 300 seconds (5 min)
-        res.status(200).json({
-          id_token: jwtToken
-        });
-
-        //res.json({'user': credentials.user, 'role': 'ADMIN'});   
-      }else{
-        res.status(401).json({'message' : 'Invalid user/password'});
-      }
-});
-
-app.post('/api/logout', function(req, res) {
-    res.status(200).json({'message' : 'User logged out'});   
-});
+app.use('/api', apiRoutes);
 
 // We need to use basic HTTP service to proxy
 // websocket requests from webpack
 const server = http.createServer(app);
 
+const port = isProduction ? (process.env.PORT || 80) : 3000;
 server.listen(port, function (err, result) {
   if(err){
-    console.log(err);
+    throw err;
   }
+  connectDB(process.env.DB_URI);
   console.log('Server running on port ' + port);
 }); 
