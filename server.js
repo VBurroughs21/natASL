@@ -11,7 +11,7 @@ const webpackConfig = require('./webpack.config');
 
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const connectMongo = require('connect-mongo');
+const MongoStore = require('connect-mongo')(session);
 
 const { connectDB } = require('./server/database');
 const apiRoutes = require('./server/routes');
@@ -53,7 +53,7 @@ const publicPath = path.resolve(__dirname);
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(express.static(publicPath));
 
-// const MongoStore = connectMongo(session);
+const mongooseConnection = connectDB(process.env.DB_URI);
 
 app.use(cookieParser());
 app.use(session({
@@ -61,20 +61,16 @@ app.use(session({
   secure: isProduction,  // Should be true when using https
   resave: true,
   saveUninitialized: true,
-  // store: new MongoStore(),
+  store: new MongoStore({ mongooseConnection }),
 }));
 
 app.use('/api', apiRoutes);
 
-// We need to use basic HTTP service to proxy
-// websocket requests from webpack
 const server = http.createServer(app);
-
 const port = isProduction ? (process.env.PORT || 80) : 3000;
 server.listen(port, function (err, result) {
   if(err){
     throw err;
   }
-  connectDB(process.env.DB_URI);
   console.log('Server running on port ' + port);
 }); 

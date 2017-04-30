@@ -10,4 +10,5 @@ module.exports.connectDB = (dbUri) => {
     }
     console.log('Connected to MongoDB Server');
   });
+  return mongoose.connection;
 }
