@@ -14,6 +14,8 @@ import Home from './containers/home/Home';
 import UsersPage from './containers/user/UsersPage';
 import ReposPage from './containers/repo/ReposPage';
 import About from './containers/about/About';
+//import Pricing from './containers/about/About';
+//import SignUp from './containers/about/About';
 import NotFound from './containers/misc/NotFound';
 
 import './index.css';
@@ -26,7 +28,10 @@ ReactDOM.render(
         <Route path="/" component={App}>
           <IndexRoute component={Home}/>
           <Route path="/about" component={About}/>
+          //<Route path="/pricing" component={Pricing}/>  
+          //<Route path="/signup" component={SignUp}/>
           <Route path="/login" component={Login}/>
+
           <Route component={RestrictPage}>
             <Route path="/users" component={UsersPage} />
             <Route path="/repos" component={ReposPage} />
